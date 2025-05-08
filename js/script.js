@@ -1,49 +1,63 @@
-const menuBtn = document.querySelector('.menu__icon')
-const menu = document.querySelector('.menu__list')
+const menuBtn = document.querySelector('.menu__icon');
+const menu = document.querySelector('.menu__list');
 
 if (menuBtn && menu) {
 	menuBtn.addEventListener('click', () => {
-		menuBtn.classList.toggle('active')
-		menu.classList.toggle('active')
-	})
+		menuBtn.classList.toggle('active');
+		menu.classList.toggle('active');
+	});
 
 	menu.querySelectorAll('a').forEach(link => {
 		link.addEventListener('click', () => {
-			menuBtn.classList.toggle('active')
-			menu.classList.toggle('active')
-		})
-	})
+			menuBtn.classList.remove('active');
+			menu.classList.remove('active');
+		});
+	});
 }
 
-const anchors = document.querySelectorAll('a[href*="#"]');
+// Smooth scroll
+const anchors = document.querySelectorAll('a[href^="#"]');
 
 anchors.forEach(anchor => {
-	anchor.addEventListener('click', e => {
+	anchor.addEventListener('click', function (e) {
 		e.preventDefault();
+		const targetID = this.getAttribute('href').substring(1);
+		const target = document.getElementById(targetID);
+		if (target) {
+			target.scrollIntoView({
+				behavior: 'smooth',
+				block: 'start'
+			});
+		}
+	});
+});
 
-		const blockID = anchor.getAttribute('href').substring(1);
+// Active menu link on scroll
+const observerSections = document.querySelectorAll('.section, .hero');
+const navLinks = document.querySelectorAll('.menu__link');
 
-		document.getElementById(blockID).scrollIntoView({
-			behavior: 'smooth',
-			block: 'start',
-		})
-	})
-})
-
-const createSelectedSection = (root) => {
-	const nav = root.querySelector('nav');
-
-	root.querySelectorAll('.observe').forEach(s => {
-		new IntersectionObserver((entries) => {
-			entries.forEach(entry => {
-				if (entry.isIntersecting) {
-					nav.querySelectorAll('a').forEach(link => link.classList.remove('active'))
-					let id = entry.target.getAttribute('id');
-					nav.querySelector(`a[href="#${id}"]`).classList.add('active');
+const sectionObserver = new IntersectionObserver((entries) => {
+	entries.forEach(entry => {
+		if (entry.isIntersecting) {
+			let id = entry.target.getAttribute('id');
+			navLinks.forEach(link => {
+				link.classList.remove('active');
+				if (link.getAttribute('href') === `#${id}`) {
+					link.classList.add('active');
 				}
-			})
-		}, {}).observe(s);
-	})
-}
+			});
+		}
+	});
+}, {
+	threshold: 0.3
+});
+
+document.querySelector("#myButton").addEventListener("click", function() {
+	alert("Кнопка нажата!");
+  });
+  
+observerSections.forEach(section => {
+	sectionObserver.observe(section);
+});
 
 createSelectedSection(document.querySelector('#page'))
