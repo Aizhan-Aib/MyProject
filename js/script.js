@@ -15,7 +15,6 @@ if (menuBtn && menu) {
 	});
 }
 
-// Smooth scroll
 const anchors = document.querySelectorAll('a[href^="#"]');
 
 anchors.forEach(anchor => {
@@ -32,32 +31,30 @@ anchors.forEach(anchor => {
 	});
 });
 
-// Active menu link on scroll
-const observerSections = document.querySelectorAll('.section, .hero');
+const sections = document.querySelectorAll('section');
 const navLinks = document.querySelectorAll('.menu__link');
 
-const sectionObserver = new IntersectionObserver((entries) => {
+const observer = new IntersectionObserver((entries) => {
 	entries.forEach(entry => {
 		if (entry.isIntersecting) {
-			let id = entry.target.getAttribute('id');
-			navLinks.forEach(link => {
-				link.classList.remove('active');
-				if (link.getAttribute('href') === `#${id}`) {
-					link.classList.add('active');
-				}
-			});
+			navLinks.forEach(link => link.classList.remove('active'));
+			const id = entry.target.getAttribute('id');
+			const activeLink = document.querySelector(`.menu__link[href="#${id}"]`);
+			if (activeLink) activeLink.classList.add('active');
 		}
 	});
 }, {
 	threshold: 0.3
 });
 
-document.querySelector("#myButton").addEventListener("click", function() {
-	alert("Кнопка нажата!");
-  });
-  
-observerSections.forEach(section => {
-	sectionObserver.observe(section);
+sections.forEach(section => {
+	observer.observe(section);
 });
 
-createSelectedSection(document.querySelector('#page'))
+const cards = document.querySelectorAll('.menu__card');
+
+cards.forEach(card => {
+	card.addEventListener('click', () => {
+		card.classList.toggle('highlighted');
+	});
+});

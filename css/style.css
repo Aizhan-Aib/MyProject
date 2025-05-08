@@ -1,4 +1,3 @@
-/* style.css */
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@300;500&display=swap');
 
 * {
@@ -221,3 +220,9 @@ body {
 		transform: rotate(-45deg) translate(5px, -5px);
 	}
 }
+
+.menu__card.highlighted {
+	outline: 3px solid #c54b8c;
+	transform: scale(1.03);
+	transition: all 0.3s;
+  }
