@@ -58,3 +58,30 @@ cards.forEach(card => {
 		card.classList.toggle('highlighted');
 	});
 });
+
+
+  
+function showModal(imageSrc, title, text) {
+	document.getElementById("modalImage").src = imageSrc;
+	document.getElementById("modalTitle").innerText = title;
+	document.getElementById("modalText").innerText = text;
+	document.getElementById("modal").style.display = "block";
+	}
+
+	
+	function closeModal() {
+	document.getElementById("modal").style.display = "none";
+	}
+
+	
+	document.addEventListener("DOMContentLoaded", function () {
+	const cards = document.querySelectorAll(".menu__card");
+	cards.forEach(card => {
+		card.addEventListener("click", function () {
+		const img = this.querySelector("img");
+		const title = this.querySelector("h3").innerText;
+		const text = this.querySelector("p")?.innerText || "";
+		showModal(img.src, title, text);
+		});
+	});
+});
