@@ -221,12 +221,6 @@ body {
 	}
 }
 
-.menu__card.highlighted {
-	outline: 3px solid #c54b8c;
-	transform: scale(1.03);
-	transition: all 0.3s;
-  }
-
 .modal {
   display: none;
   position: fixed;
